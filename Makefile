@@ -60,6 +60,12 @@ CONFIG_NO_TIMESTAMP := y
 CONFIG_NR_PORTS := 1
 endif
 
+ifeq ($(SUME),y)
+ccflags-y += -DCONFIG_SUME
+CONFIG_NO_TIMESTAMP := y
+CONFIG_NR_PORTS := 1
+endif
+
 ifeq ($(OSNT),y)
 ccflags-y += -DCONFIG_OSNT
 endif
