@@ -51,6 +51,7 @@
 
 #define NF10_VENDOR_ID	0x10ee
 #define NF10_DEVICE_ID	0x4245
+#define SUME_DEVICE_ID	0x7038
 
 struct nf10_adapter {
 	struct napi_struct napi;

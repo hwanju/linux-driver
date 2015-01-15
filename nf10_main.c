@@ -497,6 +497,7 @@ static void nf10_remove(struct pci_dev *pdev)
 
 static struct pci_device_id pci_id[] = {
 	{PCI_DEVICE(NF10_VENDOR_ID, NF10_DEVICE_ID)},
+	{PCI_DEVICE(NF10_VENDOR_ID, SUME_DEVICE_ID)},
 	{0}
 };
 MODULE_DEVICE_TABLE(pci, pci_id);
