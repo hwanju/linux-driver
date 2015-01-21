@@ -666,6 +666,7 @@ static void nf10_lbuf_process_rx_irq(struct nf10_adapter *adapter,
 				  "Error: invalid packet "
 				  "(port_num=%d, len=%u at rx_idx=%d lbuf[%u])",
 				  port_num, pkt_len, rx_idx(), dword_idx);
+			nf10_writel(adapter, 8, 0xcacabeef);	/* singal hw */
 			printk("-prev packet --------------------------------\n");
 			print_hex_dump(KERN_WARNING, "", DUMP_PREFIX_NONE, 16, 1,
 				       (u32 *)buf_addr + (dword_idx - 18), 72, true);
