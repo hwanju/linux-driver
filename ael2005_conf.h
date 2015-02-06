@@ -1,3 +1,4 @@
+/* Magic registers */
 #ifndef _AEL2005_SIMPLE_CONF_H
 #define _AEL2005_SIMPLE_CONF_H
 
