@@ -1,10 +1,51 @@
+/*******************************************************************************
+*
+*  NetFPGA-10G http://www.netfpga.org
+*
+*  File:
+*        ael2005_conf.h
+*
+*  Project:
+*
+*
+*  Author:
+*        Marco Forconesi
+*
+*  Description:
+*        register information for PHYs (AEL2005) configuration.
+*
+*	 This code is initially developed for the Network-as-a-Service (NaaS) project.
+*	 (under development in https://github.com/NetFPGA-NewNIC/linux-driver)
+*        
+*
+*  Copyright notice:
+*        Copyright (C) 2014 University of Cambridge
+*
+*  Licence:
+*        This file is part of the NetFPGA 10G development base package.
+*
+*        This file is free code: you can redistribute it and/or modify it under
+*        the terms of the GNU Lesser General Public License version 2.1 as
+*        published by the Free Software Foundation.
+*
+*        This package is distributed in the hope that it will be useful, but
+*        WITHOUT ANY WARRANTY; without even the implied warranty of
+*        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*        Lesser General Public License for more details.
+*
+*        You should have received a copy of the GNU Lesser General Public
+*        License along with the NetFPGA source package.  If not, see
+*        http://www.gnu.org/licenses/.
+*
+*/
+
 /* Magic registers */
 #ifndef _AEL2005_SIMPLE_CONF_H
 #define _AEL2005_SIMPLE_CONF_H
 
 #define MDIO_MMD_PMAPMD 1
 
-// software reset and magic registers
+/* software reset and magic registers */
 const u16 reset[] = {
 	0x0000, 0xa040,
 	0xc001, 0x0428,
@@ -16,13 +57,13 @@ const u16 reset[] = {
 	0xc210, 0x0000
 };
 
-// unpause the microprocessor
+/* unpause the microprocessor */
 const u16 regs1[] = {
 	0xca00, 0x0080,
 	0xca12, 0x0000
 };
 
-// main Twinax EDC program
+/* main Twinax EDC program */
 const u16 twinax_edc[] = {
 	0xc04a, 0x5a00,
 	0xcc00, 0x4009,
@@ -393,7 +434,7 @@ const u16 twinax_edc[] = {
 	0xcd6d, 0
 };
 
-// main SR EDC program
+/* main SR EDC program */
 const u16 sr_edc[] = {
 	0xc003, 0x181,
 	0xc010, 0x448a,
