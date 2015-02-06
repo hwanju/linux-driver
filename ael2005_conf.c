@@ -9,14 +9,11 @@
 *
 *
 *  Author:
-*        Hwanju Kim
 *        Marco Forconesi
+*        Hwanju Kim
 *
 *  Description:
 *        Write magic registers for PHYs (AEL2005) configuration.
-*
-*        TODO: 
-*		
 *
 *	 This code is initially developed for the Network-as-a-Service (NaaS) project.
 *	 (under development in https://github.com/NetFPGA-NewNIC/linux-driver)
@@ -53,10 +50,7 @@
 #include "nf10.h"
 #include "ael2005_conf.h"
 
-static bool CF_PHY_NF0 = true;
-static bool CF_PHY_NF1 = true;
-static bool CF_PHY_NF2 = true;
-static bool CF_PHY_NF3 = true;
+extern int phy_conf_port_mask;
 
 irqreturn_t mdio_access_interrupt_handler(int irq, void *dev_id)
 {
@@ -78,7 +72,8 @@ int configure_ael2005_phy_chips(struct nf10_adapter *adapter)
 	u16 ADDR, WRITE_DATA;
 	int size, i;
 	int timeout;
-	bool config_phy;
+	int port_num;
+	u8 port_num_to_PRTAD[] = {0x02, 0x01, 0x00, 0x03};
 
 	pr_info("PHY: AEL2005 configuration starts\n");
 
@@ -87,30 +82,13 @@ int configure_ael2005_phy_chips(struct nf10_adapter *adapter)
 	 * interfaces on the board. The closest to the PCIe
 	 * fingers has a PRTAD hard-wired to 0x02 and corresponds to
 	 * nf0 in SW */
-	for(PRTAD = 0; PRTAD < 4; PRTAD++) {
+	for(port_num = 0; port_num < 4; port_num++) {
+		if (!(phy_conf_port_mask & (1 << port_num)))
+			continue;
+
+		PRTAD = port_num_to_PRTAD[port_num];
 		DEVAD = MDIO_MMD_PMAPMD;
 		timeout = 0;
-
-		/* map nfx to PRTAD */
-		switch (PRTAD) {
-			case 0x02:
-				config_phy = CF_PHY_NF0;
-				break;
-			case 0x01:
-				config_phy = CF_PHY_NF1;
-				break;
-			case 0x00:
-				config_phy = CF_PHY_NF2;
-				break;
-			case 0x03:
-				config_phy = CF_PHY_NF3;
-				break;
-			default:
-				return -1;
-		}
-
-		if (!config_phy)
-			continue;
 
 		/* step 1: write reset registers */
 		size = sizeof(reset) / sizeof(u16);
@@ -219,6 +197,7 @@ int configure_ael2005_phy_chips(struct nf10_adapter *adapter)
 				msleep(2);
 			} while (!atomic_read(&adapter->mdio_access_rdy));
 		}
+		pr_info("\tnf%d (PRTAD=%u) PHY configured\n", port_num, PRTAD);
 	}
 	pr_info("PHY: AEL2005 configuration finishes\n");
 

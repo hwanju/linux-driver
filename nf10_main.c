@@ -75,6 +75,12 @@ module_param(reset, bool, 0644);
 MODULE_PARM_DESC(reset, "PCIe reset");
 #endif
 
+/* if CONFIG_PHY_INIT=y, phy_conf_port_mask controls which ports are
+ * configured at loading time (e.g., 0x5 -> nf0 and nf2) */
+int phy_conf_port_mask = 0xf;		/* 4 ports by default */
+module_param(phy_conf_port_mask, int, 0644);
+MODULE_PARM_DESC(phy_conf_port_mask, "PHY configuration port bitmask");
+
 #define NF10_NAPI_BUDGET	64
 
 /* DMA engine-dependent functions */
